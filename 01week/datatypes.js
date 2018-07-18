@@ -29,3 +29,9 @@ const stringToNumber = (str) => parseInt(str);
 // methods: typeof 
 // name function printDatatype()
 const printDataType = (datatype) => console.log(typeof datatype);
+
+// Write a JavaScript program that adds 2 numbers together.
+// function takes two arguments, returns the sum
+// methods: + 
+// name functon getSum()
+const getSum = (num1, num2) => num1 + num2;
