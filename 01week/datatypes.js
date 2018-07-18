@@ -35,3 +35,9 @@ const printDataType = (datatype) => console.log(typeof datatype);
 // methods: + 
 // name functon getSum()
 const getSum = (num1, num2) => num1 + num2;
+
+// Write a JavaScript program that runs only when 2 things are true.
+// function takes 2 arguments, runs when both are true
+// methods: ternary operator
+// name function areArgumentsTrue()
+const areArgumentsTrue = (arg1, arg2) => arg1 && arg2 ? true : false;
