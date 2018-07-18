@@ -13,3 +13,9 @@ const displayDayAndTime = () => {
 }
 console.log(displayDayAndTime());
 
+
+// Write a JavaScript program to convert a number to a string.
+// function recieves 1 argument, returns a string
+// methods: Number.toString()
+// name function numberToString()
+const numberToString = (num) => num.toString();
