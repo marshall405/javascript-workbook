@@ -22,3 +22,10 @@ const numberToString = (num) => num.toString();
 // methods: parseInt()
 // name function stringToNumber()
 const stringToNumber = (str) => parseInt(str);
+
+// Write a JavaScript program that takes in different datatypes and prints out whether they are a:
+// Boolean, Null, Undefined, Number, NaN ,String
+// function takes 1 argument, returns type of data
+// methods: typeof 
+// name function printDatatype()
+const printDataType = (datatype) => console.log(typeof datatype);
