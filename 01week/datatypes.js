@@ -42,7 +42,7 @@ const printDataType = datatype => console.log(typeof datatype);
 // function takes two arguments, returns the sum
 // methods: + 
 // name functon getSum()
-const getSum = (num1, num2) => num1 + num2;
+const sumOfTwoNumbers = (num1, num2) => num1 + num2;
 
 // Write a JavaScript program that runs only when 2 things are true.
 // function takes 2 arguments, runs when both are true
