@@ -16,7 +16,7 @@ const displayDayAndTime = () => {
       hours = date.getHours();
     }
     const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-    return `${daysOfWeekArray[day]} ${hours}:${minutes}`;
+    return `${daysOfWeek[day]} ${hours}:${minutes}`;
 }
 
 // Write a JavaScript program to convert a number to a string.
