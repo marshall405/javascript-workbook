@@ -48,3 +48,8 @@ const areArgumentsTrue = (arg1, arg2) => arg1 && arg2 ? true : false;
 // name function isOneTrue()
 const isOneTrue = (arg1, arg2) => arg1 || arg2 ? true : false;
 
+// Write a JavaScript program that runs when both things are not true.
+// function takes two arguments
+// methods: logical not operator, ternary 
+// name function areNotTrue()
+const areNotTrue = (arg1, arg2) => !arg1 && !arg2 ? true : false;
