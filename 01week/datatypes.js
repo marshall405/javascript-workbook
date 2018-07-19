@@ -1,3 +1,4 @@
+'use strict';
 //Write a JavaScript program to display the current day and time.
 // use new Date(), getDay(), getHours(), getMinutes()
 // create an array to hold days of the week
