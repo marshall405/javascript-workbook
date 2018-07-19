@@ -40,16 +40,16 @@ const getSum = (num1, num2) => num1 + num2;
 // function takes 2 arguments, runs when both are true
 // methods: ternary operator
 // name function areArgumentsTrue()
-const areArgumentsTrue = (arg1, arg2) => arg1 && arg2 ? true : false;
+const areBothArgumentsTrue = (arg1, arg2) => arg1 && arg2 ? true : false;
 
 // Write a JavaScript program that runs when 1 of 2 things are true.
 // function takes two arguments
 // methods: if statement, || and ternary 
 // name function isOneTrue()
-const isOneTrue = (arg1, arg2) => arg1 || arg2 ? true : false;
+const isOneArgumentTrue = (arg1, arg2) => arg1 || arg2 ? true : false;
 
 // Write a JavaScript program that runs when both things are not true.
 // function takes two arguments
 // methods: logical not operator, ternary 
 // name function areNotTrue()
-const areNotTrue = (arg1, arg2) => !arg1 && !arg2 ? true : false;
+const areBothArgumentsNotTrue = (arg1, arg2) => !arg1 && !arg2 ? true : false;
