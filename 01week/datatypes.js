@@ -41,3 +41,10 @@ const getSum = (num1, num2) => num1 + num2;
 // methods: ternary operator
 // name function areArgumentsTrue()
 const areArgumentsTrue = (arg1, arg2) => arg1 && arg2 ? true : false;
+
+// Write a JavaScript program that runs when 1 of 2 things are true.
+// function takes two arguments
+// methods: if statement, || and ternary 
+// name function isOneTrue()
+const isOneTrue = (arg1, arg2) => arg1 || arg2 ? true : false;
+
