@@ -15,20 +15,20 @@ const displayDayAndTime = () => {
 // function recieves 1 argument, returns a string
 // methods: Number.toString()
 // name function numberToString()
-const numberToString = (num) => num.toString();
+const numberToString = num => num.toString();
 
 // Write a JavaScript program to convert a string to the number.
 // function takes 1 argument, returns a number
 // methods: parseInt()
 // name function stringToNumber()
-const stringToNumber = (str) => parseInt(str);
+const stringToNumber = str => parseInt(str);
 
 // Write a JavaScript program that takes in different datatypes and prints out whether they are a:
 // Boolean, Null, Undefined, Number, NaN ,String
 // function takes 1 argument, returns type of data
 // methods: typeof 
 // name function printDatatype()
-const printDataType = (datatype) => console.log(typeof datatype);
+const printDataType = datatype => console.log(typeof datatype);
 
 // Write a JavaScript program that adds 2 numbers together.
 // function takes two arguments, returns the sum
