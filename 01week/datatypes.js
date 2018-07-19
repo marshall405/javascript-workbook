@@ -4,11 +4,18 @@
 // create an array to hold days of the week
 // name function displayDayAndTime()
 const displayDayAndTime = () => {
-    const daysOfWeekArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const date = new Date();
     const day = date.getDay();
-    const hours = date.getHours() > 12 ?      date.getHours() - 12 : date.getHours();
-    const minutes = date.getMinutes();
+    let hours;
+    if(date.getHours() < 1){
+        hours = 12;
+    } else if(date.getHours() > 12) {
+        hours = date.getHours() - 12;
+    } else {
+      hours = date.getHours();
+    }
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
     return `${daysOfWeekArray[day]} ${hours}:${minutes}`;
 }
 
