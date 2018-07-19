@@ -46,18 +46,18 @@ const getSum = (num1, num2) => num1 + num2;
 
 // Write a JavaScript program that runs only when 2 things are true.
 // function takes 2 arguments, runs when both are true
-// methods: ternary operator
+// methods: && 
 // name function areArgumentsTrue()
-const areBothArgumentsTrue = (arg1, arg2) => arg1 && arg2 ? true : false;
+const areBothTrue = (arg1, arg2) => arg1 && arg2;
 
 // Write a JavaScript program that runs when 1 of 2 things are true.
 // function takes two arguments
-// methods: if statement, || and ternary 
+// methods: || 
 // name function isOneTrue()
-const isOneArgumentTrue = (arg1, arg2) => arg1 || arg2 ? true : false;
+const isOneTrue = (arg1, arg2) => arg1 || arg2;
 
 // Write a JavaScript program that runs when both things are not true.
 // function takes two arguments
-// methods: logical not operator, ternary 
+// methods: logical not operator ! and && 
 // name function areNotTrue()
-const areBothArgumentsNotTrue = (arg1, arg2) => !arg1 && !arg2 ? true : false;
+const areBothNotTrue = (arg1, arg2) => !arg1 && !arg2;
