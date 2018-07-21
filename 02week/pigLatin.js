@@ -7,12 +7,24 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// pigLatin takes in a string, moves all letters up to the first vowel to the end of the word and adds 'ay' to the end.
+// check input to make sure its a truthy value, convert to a string - should work with strings and numbers
+// create array to hold vowels ['a','e','i','o','u']
+// create variable pigLatinString to store new string
+// loop through vowel array, store index of first vowel in string in a variable called vowelIndex
+// 
+
+
+// return pigLatinString
 
 function pigLatin(word) {
 
   // Your code here
 
 }
+console.log(pigLatin('tiger')) // returns 'igertay'
+console.log(pigLatin(123))     // returns '123ay'
+console.log(pigLatin('brb'))   // returns 'brbay'
 
 
 function getPrompt() {
