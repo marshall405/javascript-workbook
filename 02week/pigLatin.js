@@ -7,24 +7,46 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// pigLatin takes in a string, moves all letters up to the first vowel to the end of the word and adds 'ay' to the end.
-// check input to make sure its a truthy value, convert to a string - should work with strings and numbers
-// create array to hold vowels ['a','e','i','o','u']
-// create variable pigLatinString to store new string
-// loop through vowel array, store index of first vowel in string in a variable called vowelIndex
-// 
 
-
-// return pigLatinString
-
-function pigLatin(word) {
-
-  // Your code here
-
+// pigLatin - takes a word, moves all letters, up to the first vowel, to the end and adds 'ay'
+// example pigLatin('tiger') => returns 'igertay'
+// steps:
+/*
+  1) Check for valid input - truthy, string
+    a) If truthy value, convert input to String(input) -
+        should work for strings and numbers now.
+  2) Create an array that holds vowels = ['a','e','i','o','u'].
+  3) Get index of first vowel in word using indexOf, store in variable named index.
+  4) Get letters before first vowel and store in variable named firstLetters, using string.slice(0, index).
+  5) Get letters after first vowel(inclusive) and store in variable named lettersAfter, using string.slice(index)
+  6) Using concatenation, return lettersAfter + firstLetters + 'ay';
+*/
+const pigLatin = (word) => {
+  if(word){
+    const input = String(word);
+    const vowels = ['a','e','i','o','u'];
+    let index;
+    for(let i = 0; i < input.length; i++){
+      if(vowels.indexOf(input[i]) > -1){
+        let firstVowelIndex = vowels.indexOf(input[i]);
+        index = input.indexOf(vowels[firstVowelIndex]);
+        break;
+      }
+    }
+    const firstLetters = input.slice(0, index || 0);
+    const lettersAfter = input.slice(index || 0);
+    return `${lettersAfter}${firstLetters}ay`;
+  }
 }
-console.log(pigLatin('tiger')) // returns 'igertay'
-console.log(pigLatin(123))     // returns '123ay'
-console.log(pigLatin('brb'))   // returns 'brbay'
+console.log(pigLatin('car'))
+console.log(pigLatin('dog'))
+console.log(pigLatin('create'))
+console.log(pigLatin('valley'))
+console.log(pigLatin('egg'))
+console.log(pigLatin('emission'))
+console.log(pigLatin('HeLlO '))
+console.log(pigLatin(' RoCkEt'))
+
 
 
 function getPrompt() {
