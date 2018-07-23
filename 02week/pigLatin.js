@@ -40,14 +40,7 @@ const pigLatin = (word) => {
     return `${lettersAfter}${firstLetters}ay`;
   }
 }
-console.log(pigLatin('car'))
-console.log(pigLatin('dog'))
-console.log(pigLatin('create'))
-console.log(pigLatin('valley'))
-console.log(pigLatin('egg'))
-console.log(pigLatin('emission'))
-console.log(pigLatin('HeLlO '))
-console.log(pigLatin(' RoCkEt'))
+
 
 
 
