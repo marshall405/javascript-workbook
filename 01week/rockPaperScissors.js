@@ -10,8 +10,8 @@ const rl = readline.createInterface({
 
 
 // formatHand takes one string argument and either returns 1 of 3 possble hands for rock paper scissors or undefined
-// Uses first letter of hand to determine if its rock || paper || scissors
 // Must trim() whitespace and toLowerCase()
+// Use first letter of hand to determine if it should be rock || paper || scissors
 // methods: switch, charAt(), trim(), toLowerCase()
 const formatHand = (hand) => {
   let setHand;
@@ -32,14 +32,17 @@ const formatHand = (hand) => {
 }
 
 // Create rockPaperScissors Parent function that takes two string arguments and returns 1 winner
-// if hand1 is the same as hand2,       return 'It's a tie!'
-// if hand1 = rock & hand2 = paper,     return 'Hand two wins!'
-// if hand1 = paper & hand2 = scissors, return 'Hand two wins!'
-// if hand1 = scissors & hand2 = rock,  return 'Hand two wins!' 
-// if hand2 = rock & hand1 = paper,     return 'Hand one wins!' 
-// if hand2 = paper & hand1 = scissors, return 'Hand one wins!'
+// Check if arguments are truthy
+// Create new variables to hold formatted arguments
+// Check...
+  // if hand1 is the same as hand2,       return 'It's a tie!'
+  // if hand1 = rock & hand2 = paper,     return 'Hand two wins!'
+  // if hand1 = paper & hand2 = scissors, return 'Hand two wins!'
+  // if hand1 = scissors & hand2 = rock,  return 'Hand two wins!' 
+  // if hand2 = rock & hand1 = paper,     return 'Hand one wins!' 
+  // if hand2 = paper & hand1 = scissors, return 'Hand one wins!'
 // if hand2 = scissors & hand1 = rock,  return 'Hand one wins!' 
-// methods: if statements
+// methods: if statements, 
 function rockPaperScissors(hand1, hand2) {
 
   // Write code here
