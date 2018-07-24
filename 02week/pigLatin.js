@@ -26,8 +26,10 @@ const pigLatin = (word) => {
     const vowels = ['a','e','i','o','u'];
     let index;
     for(let i = 0; i < input.length; i++){
+      // check if letter in word is in the vowels array, if not goes to next letter
       if(vowels.indexOf(input[i]) > -1){
         let firstVowelIndex = vowels.indexOf(input[i]);
+        // use value from vowels array to check the position of vowel in the word
         index = input.indexOf(vowels[firstVowelIndex]);
         if(index === 0){
           return `${input}yay`;
