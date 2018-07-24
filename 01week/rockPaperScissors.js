@@ -98,6 +98,11 @@ if (typeof describe === 'function') {
       assert.equal(rockPaperScissors('Paper', 'SCISSORS'), "Hand two wins!");
       assert.equal(rockPaperScissors('rock ', 'sCiSsOrs'), "Hand one wins!");
     });
+    it('should accept any string starting with r, p or s', () => {
+      assert.equal(rockPaperScissors('roooooock', 'p'), "Hand two wins!");
+      assert.equal(rockPaperScissors('sscissorrrs', ' PaPERr '), "Hand one wins!");
+      assert.equal(rockPaperScissors('r', 'scissors'), "Hand one wins!");
+    });
   });
 } else {
 
