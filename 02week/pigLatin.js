@@ -20,8 +20,8 @@ const rl = readline.createInterface({
 // Create isVowel() to check if a letter is a vowel
     // isVowel() should take a single character and return truthy or falsey value
     // isVowel() should hold an array of vowels
-
-
+// Methods:
+// split(), forEach(), push(), slice(), indexOf(), if/else statements, 
 
 
 function pigLatin(word) {
