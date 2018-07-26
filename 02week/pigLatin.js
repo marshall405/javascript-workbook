@@ -49,6 +49,8 @@ function pigLatin(word) {
           firstVowelAndBeyond = formattedWord.slice(i);
           lettersBeforeVowels = formattedWord.slice(0, i);
           break;
+        } else {
+          lettersBeforeVowels = formattedWord;
         }
       }
       return `${firstVowelAndBeyond}${lettersBeforeVowels}ay`;
