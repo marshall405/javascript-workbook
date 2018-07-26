@@ -42,14 +42,13 @@ function pigLatin(word) {
     if(isVowel(wordArray[0])){
       return `${wordArray.join("")}yay`;
     } else {
-      const lettersBeforeVowels = [];
+      let lettersBeforeVowels = [];
       let firstVowelAndBeyond = [];
       for(let i = 0; i < wordArray.length; i++) {
         if(isVowel(wordArray[i])){
           firstVowelAndBeyond = wordArray.slice(i);
+          lettersBeforeVowels = wordArray.slice(0, i);
           break;
-        } else {
-          lettersBeforeVowels.push(wordArray[i]);
         }
       }
       return `${firstVowelAndBeyond.join("")}${lettersBeforeVowels.join("")}ay`;
