@@ -9,9 +9,9 @@ const rl = readline.createInterface({
 
 // pigLatin should take in a word and move all letters before first vowel to the end and add 'ay'
 // pigLatin('tiger') => should return 'igertay'
-// Take word and trim whitespace, toLowerCase and split into an array, word.trim().toLowerCase.split() - const wordArray.
+// Take word and trim whitespace, toLowerCase and split into an array, word.trim().toLowerCase.split() - const formattedWord.
 // If word starts with a vowel, return word and add 'yay' to the end.
-// Loop through wordArray, checking if its a vowel, its not a vowel continue.
+// Loop through formattedWord, checking if its a vowel, its not a vowel continue.
 // If it is a vowel, slice array at that index and store in new array - const firstVowelAndBeyond and 
 // slice at 0 to vowel index and store in new array - const lettersBeforeVowels.
 // Break from loop to avoid more letters being pushed to lettersBeforeVowels.
@@ -37,21 +37,21 @@ function pigLatin(word) {
   
   // Your code here
   if(isValidInput(word)){
-    const wordArray = word.trim().toLowerCase().split("");
+    const formattedWord = word.trim().toLowerCase();
     // if first letter in word is a vowel, return word with 'yay' at the end
-    if(isVowel(wordArray[0])){
-      return `${wordArray.join("")}yay`;
+    if(isVowel(formattedWord[0])){
+      return `${formattedWord}yay`;
     } else {
-      let lettersBeforeVowels = [];
-      let firstVowelAndBeyond = [];
-      for(let i = 0; i < wordArray.length; i++) {
-        if(isVowel(wordArray[i])){
-          firstVowelAndBeyond = wordArray.slice(i);
-          lettersBeforeVowels = wordArray.slice(0, i);
+      let lettersBeforeVowels = '';
+      let firstVowelAndBeyond = '';
+      for(let i = 0; i < formattedWord.length; i++) {
+        if(isVowel(formattedWord[i])){
+          firstVowelAndBeyond = formattedWord.slice(i);
+          lettersBeforeVowels = formattedWord.slice(0, i);
           break;
         }
       }
-      return `${firstVowelAndBeyond.join("")}${lettersBeforeVowels.join("")}ay`;
+      return `${firstVowelAndBeyond}${lettersBeforeVowels}ay`;
     }
   }
   return 'Invalid input';
