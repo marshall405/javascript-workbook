@@ -15,20 +15,47 @@ const rl = readline.createInterface({
 // Push all letters before first vowel to new array - const lettersBeforeVowels.
 // If it is a vowel, slice array at that index and store in new array - const firstVowelAndBeyond.
 // Break from loop to avoid more letters being pushed to lettersBeforeVowels.
+// Join arrays back into strings and
 // return firstVowelBeyond + lettersBeforeVowels + 'ay'.
+// Methods: split(), for loop, push(), slice(), if/else statements, join().
 
 // Create isValidInput() to check for truthy value and isNaN()
+// Methods: isNaN()
+
 // Create isVowel() to check if a letter is a vowel
     // isVowel() should take a single character and return truthy or falsey value
     // isVowel() should hold an array of vowels
-// Methods:
-// split(), for loop, push(), slice(), indexOf(), if/else statements, 
+// Methods: indexOf()
 
 
+const isValidInput = (word) => word && isNaN(word);
+const isVowel = (letter) => {
+  const vowelArray = ['a', 'e', 'i', 'o', 'u'];
+  return vowelArray.indexOf(letter) > -1;
+}
 function pigLatin(word) {
-
+  
   // Your code here
-
+  if(isValidInput(word)){
+    const wordArray = word.trim().toLowerCase().split("");
+    // if first letter in word is a vowel, return word with 'yay' at the end
+    if(isVowel(wordArray[0])){
+      return `${wordArray.join("")}yay`;
+    } else {
+      const lettersBeforeVowels = [];
+      let firstVowelAndBeyond = [];
+      for(let i = 0; i < wordArray.length; i++) {
+        if(isVowel(wordArray[i])){
+          firstVowelAndBeyond = wordArray.slice(i);
+          break;
+        } else {
+          lettersBeforeVowels.push(wordArray[i]);
+        }
+      }
+      return `${firstVowelAndBeyond.join("")}${lettersBeforeVowels.join("")}ay`;
+    }
+  }
+  return 'Invalid input';
 }
 
 
