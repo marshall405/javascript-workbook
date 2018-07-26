@@ -11,9 +11,9 @@ const rl = readline.createInterface({
 // pigLatin('tiger') => should return 'igertay'
 // Take word and trim whitespace, toLowerCase and split into an array, word.trim().toLowerCase.split() - const wordArray.
 // If word starts with a vowel, return word and add 'yay' to the end.
-// Loop through wordArray, checking if its a vowel.
-// Push all letters before first vowel to new array - const lettersBeforeVowels.
-// If it is a vowel, slice array at that index and store in new array - const firstVowelAndBeyond.
+// Loop through wordArray, checking if its a vowel, its not a vowel continue.
+// If it is a vowel, slice array at that index and store in new array - const firstVowelAndBeyond and 
+// slice at 0 to vowel index and store in new array - const lettersBeforeVowels.
 // Break from loop to avoid more letters being pushed to lettersBeforeVowels.
 // Join arrays back into strings and
 // return firstVowelBeyond + lettersBeforeVowels + 'ay'.
