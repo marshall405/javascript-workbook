@@ -7,6 +7,22 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// pigLatin should take in a word and move all letters before first vowel to the end and add 'ay'
+// pigLatin('tiger') => should return 'igertay'
+// Take word and trim whitespace, toLowerCase and split into an array, word.trim().toLowerCase.split() - const wordArray.
+// If word starts with a vowel, return word and add 'yay' to the end.
+// Loop through word array, checking if its a vowel.
+// Push all letters before first vowel to new array - const lettersBeforeVowels.
+// If it is a vowel, slice array at that index and store in new array - const firstVowelAndBeyond.
+// return firstVowelBeyond + lettersBeforeVowels + 'ay'.
+
+// Create isValidInput() to check for truthy value and isNaN()
+// Create isVowel() to check if a letter is a vowel
+    // isVowel() should take a single character and return truthy or falsey value
+    // isVowel() should hold an array of vowels
+
+
+
 
 function pigLatin(word) {
 
