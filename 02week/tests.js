@@ -29,7 +29,7 @@ const formatHand = (hand) => {
   
     // Write code here
     
-    if(hand1 && hand2){
+    if((hand1 && hand2) && (isNaN(hand1) && isNaN(hand2))){
       const handOne = formatHand(hand1);
       const handTwo = formatHand(hand2);
       if(handOne && handTwo){
@@ -53,28 +53,31 @@ const formatHand = (hand) => {
   
   // Tests
   
-  if (typeof describe === 'function') {
+if (typeof describe === 'function') {
   
     describe('#rockPaperScissors()', () => {
-      it('should detect a tie', () => {
-        assert.equal(rockPaperScissors('rock', 'rock'), "It's a tie!");
-        assert.equal(rockPaperScissors('paper', 'paper'), "It's a tie!");
-        assert.equal(rockPaperScissors('scissors', 'scissors'), "It's a tie!");
-      });
-      it('should detect which hand won', () => {
-        assert.equal(rockPaperScissors('rock', 'paper'), "Hand two wins!");
-        assert.equal(rockPaperScissors('paper', 'scissors'), "Hand two wins!");
-        assert.equal(rockPaperScissors('rock', 'scissors'), "Hand one wins!");
-      });
-      it('should scrub input to ensure lowercase with "trim"ed whitepace', () => {
-        assert.equal(rockPaperScissors('rOcK', ' paper '), "Hand two wins!");
-        assert.equal(rockPaperScissors('Paper', 'SCISSORS'), "Hand two wins!");
-        assert.equal(rockPaperScissors('rock ', 'sCiSsOrs'), "Hand one wins!");
-      });
-      it('should accept any string starting with r, p or s', () => {
-        assert.equal(rockPaperScissors('roooooock', 'p'), "Hand two wins!");
-        assert.equal(rockPaperScissors('sscissorrrs', ' PaPERr '), "Hand one wins!");
-        assert.equal(rockPaperScissors('r', 'scissors'), "Hand one wins!");
-      });
+        it('should accept any string that begins with r, p or s', () => {
+            assert.equal(rockPaperScissors('roooooocky', 'perfect'), "Hand two wins!");
+            assert.equal(rockPaperScissors('sscissorrrs', ' PaPERr '), "Hand one wins!");
+            assert.equal(rockPaperScissors('r', 's'), "Hand one wins!");
+        });
+        it('should detect which hand won', () => {
+            assert.equal(rockPaperScissors('rock', 'scissors'), 'Hand one wins!');
+            assert.equal(rockPaperScissors('paper', 'rock'), 'Hand one wins!');
+            assert.equal(rockPaperScissors('scissors', 'paper'), 'Hand one wins!');
+            assert.equal(rockPaperScissors('scissors', 'rock'), 'Hand two wins!');
+            assert.equal(rockPaperScissors('rock', 'paper'), 'Hand two wins!');
+            assert.equal(rockPaperScissors('paper', 'scissors'), 'Hand two wins!');
+        });
+        it('should not accept numbers', () => {
+            assert.equal(rockPaperScissors(123, 456), 'Invalid input');
+            assert.equal(rockPaperScissors('123', '456'), 'Invalid input');
+            assert.equal(rockPaperScissors(123, 'rock'), 'Invalid input');
+        });
+        it('should only accept strings starting with r, p or s', () => {
+            assert.equal(rockPaperScissors('apples', 'rock'), 'Invalid input');
+            assert.equal(rockPaperScissors('coffee', 'paper'), 'Invalid input');
+            assert.equal(rockPaperScissors('notAValidWord', 'scissors'), 'Invalid input');
+        });
     });
-  }
+}
