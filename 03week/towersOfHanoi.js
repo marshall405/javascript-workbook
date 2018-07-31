@@ -24,18 +24,30 @@ function movePiece() {
 
 }
 
-function isLegal() {
+function isLegal(startStack, endStack) {
   // Your code here
-
+  console.log(stacks[startStack][stacks[startStack].length -1]);
 }
 
 function checkForWin() {
   // Your code here
 
 }
-
+// towersOfHanoi takes two arguments
+// Checks if move is legal
+//    -isLegal() 
+//      takes two arguments,
+//      checks if the last item on startStack is less than last item on endStack, if true move piece
+//    -movePiece()
+//      takes two arguments
+//      moves last item on startStack to endStack 
+//      methods: pop() and push()
+//    -checkForWin()
+//      takes 0 arguments
+//      check if all items from first two stacks are on the last stack
 function towersOfHanoi(startStack, endStack) {
   // Your code here
+  isLegal(startStack, endStack);
 
 }
 
@@ -92,3 +104,5 @@ if (typeof describe === 'function') {
   getPrompt();
 
 }
+
+
