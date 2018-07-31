@@ -36,10 +36,9 @@ const formatHand = (hand) => {
         } 
         if(handOne == 'paper'){
           return handTwo == 'scissors' ? 'Hand two wins!' : 'Hand one wins!';
-        } 
-        if(handOne == 'scissors'){
+        } else {
           return handTwo == 'rock' ? 'Hand two wins!' : 'Hand one wins!';
-        } 
+        }
       }
     } 
     // One or more arguments are invalid
