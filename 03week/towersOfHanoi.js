@@ -19,36 +19,49 @@ function printStacks() {
   console.log("c: " + stacks.c);
 }
 
-function movePiece() {
-  // Your code here
-
-}
 
 function isLegal(startStack, endStack) {
   // Your code here
-  console.log(stacks[startStack][stacks[startStack].length -1]);
+  const startingStack = stacks[startStack],
+        endingStack   = stacks[endStack];
+  return startingStack[startingStack.length - 1] < endingStack[endingStack.length - 1] || endingStack.length == 0;
+}
+
+function movePiece(startStack, endStack) {
+  // Your code here
+    const removedItem = stacks[startStack].pop();
+    stacks[endStack].push(removedItem);
 }
 
 function checkForWin() {
   // Your code here
-
+  return stacks.a.length === 0 && (stacks.b.length === 0 || stacks.c.length === 0);
 }
-// towersOfHanoi takes two arguments
-// Checks if move is legal
+// towersOfHanoi takes two arguments, startStack and endStack, and pops() the last item from startStack and push() to endStack if move is legal
+// Check if move is legal
 //    -isLegal() 
 //      takes two arguments,
 //      checks if the last item on startStack is less than last item on endStack, if true move piece
+// if legal, move piece
 //    -movePiece()
 //      takes two arguments
 //      moves last item on startStack to endStack 
 //      methods: pop() and push()
+// After move, check for win
 //    -checkForWin()
 //      takes 0 arguments
-//      check if all items from first two stacks are on the last stack
+//      check if all items are on the last stack
+//      check for empty arrays on first two
 function towersOfHanoi(startStack, endStack) {
   // Your code here
-  isLegal(startStack, endStack);
-
+  if(isLegal(startStack, endStack)){
+    movePiece(startStack, endStack);
+    if(checkForWin()){
+      console.log('Winner');
+    }
+  } else {
+    return 'invalid move';
+  }
 }
 
 function getPrompt() {
