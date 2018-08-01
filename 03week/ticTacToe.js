@@ -23,6 +23,30 @@ function printBoard() {
   console.log('2 ' + board[2].join(' | '));
 }
 
+/*
+ticTacToe() takes two arguments, a number for row and a number for column
+isValidInput() takes two arguments, checks that its a number and is between 0 and 2 (both inclusive)
+After each user input, check for win or switchPlayer().
+
+Check For Win...
+  After each input iterate over board array
+    Check horizontal win for each row
+    Check vertical win for each column 
+    Check diagonal win
+
+Switch player...
+  if(player == 'X'){
+     player = 'Y';
+  } else {
+    player = 'X';
+  }
+
+*/
+
+
+
+
+
 function horizontalWin() {
   // Your code here
 }
