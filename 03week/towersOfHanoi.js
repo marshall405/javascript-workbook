@@ -41,7 +41,7 @@ function printStacks() {
 
 const isValidInput = (startStack, endStack) => {
   const validInputsArr = ['a','b','c'];
-    return (startStack != endStack) && (validInputsArr.indexOf(startStack) != -1) && (validInputsArr.indexOf(endStack) != -1);
+  return (startStack != endStack) && (validInputsArr.indexOf(startStack) != -1) && (validInputsArr.indexOf(endStack) != -1);
 }
 
 const isLegal = (startStack, endStack) => {
