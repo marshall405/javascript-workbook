@@ -41,7 +41,7 @@ function printStacks() {
 
 const isValidInput = (startStack, endStack) => {
   const validInputsArr = ['a','b','c'];
-  return (validInputsArr.indexOf(startStack) != -1) && (validInputsArr.indexOf(endStack) != -1);
+    return (startStack != endStack) && (validInputsArr.indexOf(startStack) != -1) && (validInputsArr.indexOf(endStack) != -1);
 }
 
 const isLegal = (startStack, endStack) => {
@@ -130,6 +130,9 @@ if (typeof describe === 'function') {
     });
     it('should not accept any value other than a, b or c', () => {
       assert.equal(isValidInput('notAValidInput', 'a'), false);
+    });
+    it('should not accept two arguments that have the same value', () => {
+      assert.equal(isValidInput('a', 'a'), false);
     });
   });
 
