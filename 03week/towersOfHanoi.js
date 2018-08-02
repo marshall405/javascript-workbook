@@ -24,19 +24,21 @@ function printStacks() {
 //    -isValidInput()
 //      takes two string arguments
 //      check that the inputs are 'a', 'b' or 'c'
+//      check that inputs are not the same values, input1 != input2
 // Check if move is legal
 //    -isLegal() 
 //      takes two arguments,
-//      checks if the last item on startStack is less than last item on endStack, if true move piece
+//      checks if the last item on startStack is less than last item on endStack or endStack.length is 0
+//      check that startStack.length != 0
 // if legal, move piece
 //    -movePiece()
 //      takes two arguments, startStack and endStack
-//      moves last item on startStack to endStack 
+//      moves last item on startStack to endStack array
 //      methods: pop() and push()
 // After move, check for win
 //    -checkForWin()
 //      takes 0 arguments
-//      check if all items are on the last stack
+//      check if all items are on one stack, but not the first stack
 //      check the that the first array is empty and either the second or third array is empty
 
 const isValidInput = (startStack, endStack) => {
@@ -45,23 +47,20 @@ const isValidInput = (startStack, endStack) => {
 }
 
 const isLegal = (startStack, endStack) => {
-  // Your code here
   const startingStack = stacks[startStack];
   const endingStack = stacks[endStack];
-  return startingStack[startingStack.length - 1] < endingStack[endingStack.length - 1] || endingStack.length == 0;
+  return (startingStack[startingStack.length - 1] < endingStack[endingStack.length - 1] || endingStack.length == 0) && startingStack.length != 0;
 }
 
 const movePiece = (startStack, endStack) => {
-  // Your code here
-    const removedItem = stacks[startStack].pop();
-    stacks[endStack].push(removedItem);
+  const removedItem = stacks[startStack].pop();
+  stacks[endStack].push(removedItem);
 }
 
 const checkForWin = () => stacks.a.length === 0 && (stacks.b.length === 0 || stacks.c.length === 0);
 
-
+// Parent function
 const towersOfHanoi = (startStack, endStack) => {
-  // Your code here
   const startStackFormatted = startStack.trim().toLowerCase();
   const endStackFormatted = endStack.trim().toLowerCase();
   if(isValidInput(startStackFormatted, endStackFormatted)){
@@ -114,6 +113,9 @@ if (typeof describe === 'function') {
         c: []
       };
       assert.equal(isLegal('a', 'c'), true);
+    });
+    it('should not accept (startStack.length of 0) as first argument', () => {
+      assert.equal(isLegal('c', 'a'), false)
     });
   });
   describe('#checkForWin()', () => {
