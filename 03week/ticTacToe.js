@@ -93,7 +93,7 @@ function diagonalWin() {
 
 function checkForWin() {
   // Your code here
-  return horizontalWin() | verticalWin() | diagonalWin();
+  return horizontalWin() || verticalWin() || diagonalWin();
 }
 
 function ticTacToe(row, column) {
