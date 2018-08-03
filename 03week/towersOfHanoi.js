@@ -40,6 +40,12 @@ function printStacks() {
 //      takes 0 arguments
 //      check if all items are on one stack, but not the first stack
 //      check the that the first array is empty and either the second or third array is empty
+// Adding reset()............
+//    -reset()
+//      takes 0 arguments
+//      reset stacks to original
+//      is called after a win or user input is = to 'reset'
+
 
 const isValidInput = (startStack, endStack) => {
   const validInputsArr = ['a','b','c'];
@@ -58,22 +64,35 @@ const movePiece = (startStack, endStack) => {
 }
 
 const checkForWin = () => stacks.a.length === 0 && (stacks.b.length === 0 || stacks.c.length === 0);
-
+const reset = () => {
+  stacks = {
+    a: [4, 3, 2, 1],
+    b: [],
+    c: []
+  };
+}
 // Parent function
 const towersOfHanoi = (startStack, endStack) => {
-  const startStackFormatted = startStack.trim().toLowerCase();
-  const endStackFormatted = endStack.trim().toLowerCase();
-  if(isValidInput(startStackFormatted, endStackFormatted)){
-    if(isLegal(startStackFormatted, endStackFormatted)){
-      movePiece(startStackFormatted, endStackFormatted);
-      if(checkForWin()) {
-        console.log('Winner');
+  if(startStack && endStack){
+    const startStackFormatted = startStack.trim().toLowerCase();
+    const endStackFormatted = endStack.trim().toLowerCase();
+    if(isValidInput(startStackFormatted, endStackFormatted)){
+      if(isLegal(startStackFormatted, endStackFormatted)){
+        movePiece(startStackFormatted, endStackFormatted);
+        if(checkForWin()) {
+          printStacks();
+          console.log('You won!!!!');
+          console.log('Starting new game!');
+          reset();
+        }
+      } else {
+        console.log('Invalid Move')
       }
     } else {
-      console.log('Invalid Move')
+      console.log('Invalid Move');
     }
-  } else {
-    console.log('Invalid Move');
+  } else if(startStack.trim().toLowerCase() == 'reset' || endStack.trim().toLowerCase() == 'reset'){
+    reset();
   }
 }
 
@@ -99,11 +118,7 @@ if (typeof describe === 'function') {
   });
   describe('#isLegal()', () => {
     it('should not allow an illegal move', () => {
-      stacks = {
-        a: [4, 3, 2],
-        b: [1],
-        c: []
-      };
+      stacks = { a: [4, 3, 2], b: [1], c: [] };
       assert.equal(isLegal('a', 'b'), false);
     });
     it('should allow a legal move', () => {
@@ -114,7 +129,7 @@ if (typeof describe === 'function') {
       };
       assert.equal(isLegal('a', 'c'), true);
     });
-    it('should not accept (startStack.length of 0) as first argument', () => {
+    it('should not accept an empty stack as first argument', () => {
       assert.equal(isLegal('c', 'a'), false)
     });
   });
@@ -135,6 +150,13 @@ if (typeof describe === 'function') {
     });
     it('should not accept two arguments that have the same value', () => {
       assert.equal(isValidInput('a', 'a'), false);
+    });
+  });
+  describe('#reset', () => {
+    it('should reset stacks', () => {
+      stacks = { a: [], b: [4,3,2,1], c: []};
+      reset();
+      assert.deepEqual(stacks, { a: [4, 3, 2, 1], b: [], c: [] });
     });
   });
 
