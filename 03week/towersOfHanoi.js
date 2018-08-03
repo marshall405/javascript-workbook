@@ -23,24 +23,25 @@ function printStacks() {
 // Check if input is valid
 //    -isValidInput()
 //      takes two string arguments
-//      check that the inputs are 'a', 'b' or 'c'
 //      check that inputs are not the same values, input1 != input2
+//      create an array to hold valid inputs ['a', 'b' , 'c']
+//      check that the index of startStack and endStack are in array
 // Check if move is legal
 //    -isLegal() 
 //      takes two arguments,
-//      checks if the last item on startStack is less than last item on endStack or endStack.length is 0
 //      check that startStack.length != 0
-// if legal, move piece
+//      checks if the last item on startStack is less than last item on endStack or  if endStack.length is 0
+// Move piece from start stack to end stack
 //    -movePiece()
 //      takes two arguments, startStack and endStack
-//      moves last item on startStack to endStack array
+//      moves last item on startStack using pop() and pushes to endStack using push()
 //      methods: pop() and push()
-// After move, check for win
+// Check for win after every move
 //    -checkForWin()
 //      takes 0 arguments
-//      check if all items are on one stack, but not the first stack
+//      check if all items are on one stack, cannot be the first stack (stacks.a)
 //      check the that the first array is empty and either the second or third array is empty
-// Adding reset()............
+// Reset game if check for win is true
 //    -reset()
 //      takes 0 arguments
 //      reset stacks to original
