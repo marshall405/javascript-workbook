@@ -12,7 +12,7 @@ let stacks = {
   b: [],
   c: []
 };
-
+let numberOfMoves = 0;
 function printStacks() {
   console.log("a: " + stacks.a);
   console.log("b: " + stacks.b);
@@ -80,9 +80,11 @@ const towersOfHanoi = (startStack, endStack) => {
     if(isValidInput(startStackFormatted, endStackFormatted)){
       if(isLegal(startStackFormatted, endStackFormatted)){
         movePiece(startStackFormatted, endStackFormatted);
+        numberOfMoves++;
         if(checkForWin()) {
           printStacks();
-          console.log('You won!!!!');
+          console.log(`You won in ${numberOfMoves} moves!`);
+          console.log('Minimum amount of moves: 15')
           console.log('Starting new game!');
           reset();
         }
