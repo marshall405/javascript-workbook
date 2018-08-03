@@ -147,9 +147,9 @@ if (typeof describe === 'function') {
   describe('#isValidInput', () => {
     it('should only accept a, b or c', () => {
       assert.equal(isValidInput('a', 'b'), true);
-    });
-    it('should not accept any value other than a, b or c', () => {
-      assert.equal(isValidInput('notAValidInput', 'a'), false);
+      assert.equal(isValidInput('a', 'd'), false);
+      assert.equal(isValidInput('notValid', 'c'), false);
+      assert.equal(isValidInput(1234, 5678), false);
     });
     it('should not accept two arguments that have the same value', () => {
       assert.equal(isValidInput('a', 'a'), false);
