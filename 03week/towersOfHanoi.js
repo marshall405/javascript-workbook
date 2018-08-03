@@ -91,14 +91,16 @@ const towersOfHanoi = (startStack, endStack) => {
     } else {
       console.log('Invalid Move');
     }
-  } else if(startStack.trim().toLowerCase() == 'reset' || endStack.trim().toLowerCase() == 'reset'){
-    reset();
   }
 }
 
 function getPrompt() {
   printStacks();
   rl.question('start stack: ', (startStack) => {
+    if(startStack.trim().toLowerCase() == 'reset'){
+      reset();
+      getPrompt();
+    }
     rl.question('end stack: ', (endStack) => {
       towersOfHanoi(startStack, endStack);
       getPrompt();
