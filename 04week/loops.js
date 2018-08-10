@@ -31,13 +31,13 @@ for(let key in persons){
 }
 // while loop
 // Use a for loop to console.log the numbers 1 to 1000.
-// {
-//     let number = 1;
-//     while(number < 1001){
-//         console.log(number);
-//         number++;
-//     }
-// }
+{
+    let number = 1;
+    while(number < 1001){
+        console.log(number);
+        number += 1;
+    }
+}
 // for(let i = 1; i < 1001; i++){
 //     console.log(i);
 // }
@@ -48,11 +48,16 @@ for(let key in persons){
 //     let number = 1;
 //     do{
 //         console.log(number);
-//         number++;
+//         number+=1;
 //     }while(number < 1001);
 // }
 // When is a for loop better than a while loop?
-// 
+// It would be better to use a for loop when you know how many times you want to loop through a block of code.
+// while loop would be better when you want to continue looping through a block until a certain condition is met.
+
 // How is the readability of the code affected?
+// 
 // What is the difference between a for loop and a for...in loop?
+// 
 // What is the difference between a while loop and a do...while loop?
+// the only difference is that a do while loop will execute the block once before checking the condition.
