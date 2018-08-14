@@ -31,13 +31,12 @@ for(let key in persons){
 }
 // while loop
 // Use a for loop to console.log the numbers 1 to 1000.
-{
-    let number = 1;
-    while(number < 1001){
-        console.log(number);
-        number += 1;
-    }
+let number = 1;
+while(number < 1001){
+    console.log(number);
+    number += 1;
 }
+// OR...
 // for(let i = 1; i < 1001; i++){
 //     console.log(i);
 // }
@@ -58,6 +57,8 @@ for(let key in persons){
 // How is the readability of the code affected?
 // 
 // What is the difference between a for loop and a for...in loop?
-// 
+// A for loop lets you loop over a block of code a certain amout of times.
+// A for in loop lets you iterate over the keys of an object
+
 // What is the difference between a while loop and a do...while loop?
 // the only difference is that a do while loop will execute the block once before checking the condition.
