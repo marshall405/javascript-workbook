@@ -28,11 +28,11 @@ let jobTypes = {
       this.ship = null;
     }
     enterShip(Ship) {
-      if(Ship.type === jobTypes[this.job]){
+      if(Ship.type === jobTypes[this.job] || this.job === 'programmer'){
         this.ship = Ship;
         Ship.crew.push(this);
       } else {
-        console.log(`Crewmember ${this.name} does not have access to ${Ship.name}`);
+        return `Crewmember ${this.name} does not have access to ${Ship.name}`;
       }
     }
   }
@@ -71,6 +71,20 @@ if (typeof describe === 'function'){
       assert.equal(crewMember1.ship, mav);
       assert.equal(mav.crew.length, 1);
       assert.equal(mav.crew[0], crewMember1);
+    });
+    it('should keep from assigning the wrong ship', () => {
+      const mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit');
+      const crewMember1 = new CrewMember('Commander Lewis', 'commander', 'geology');
+      assert.equal(crewMember1.enterShip(mav), `Crewmember ${crewMember1.name} does not have access to ${mav.name}`);
+    });
+    it('should allow a programmer to enter any ship', () => {
+      const mainShip = new Ship('Hermes', 'Main Ship', 'Interplanetary Space Travel');
+      const mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit');
+      const programmer1 = new CrewMember('Michael Jordan', 'programmer', 'Basketball');
+      programmer1.enterShip(mainShip);
+      assert.equal(programmer1.ship, mainShip);
+      assert.equal(mainShip.crew.length, 1);
+      assert.equal(mainShip.crew[0], programmer1);
     });
   });
 
