@@ -55,7 +55,8 @@ while(number < 1001){
 // while loop would be better when you want to continue looping through a block until a certain condition is met.
 
 // How is the readability of the code affected?
-// 
+// A for loop keeps the variable, condition and increment all in one spot 
+
 // What is the difference between a for loop and a for...in loop?
 // A for loop lets you loop over a block of code a certain amout of times.
 // A for in loop lets you iterate over the keys of an object
