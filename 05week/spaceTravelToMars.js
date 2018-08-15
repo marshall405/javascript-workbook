@@ -11,6 +11,48 @@ let jobTypes = {
 
 // Your code here
 
+// Create a class CrewMember that takes a name, job and specialSkill. set this.ship to null
+  // create a method on CrewMember called enterShip()
+    // enterShip() takes one argument, an object, and sets CrewMember ship to that object
+    // enterShip() will also push CrewMember onto the objects crew array
+// Create a class Ship that takes a name, type and ability. set this.crew to []
+  // create a method on Ship called missionStatement() 
+  // missionStatement() will determine if that ship has a crew,
+  // if so return this.ability, else return 'Can't perform a mission yet'
+
+  class CrewMember {
+    constructor(name, job, specialSkill) {
+      this.name = name;
+      this.job = job;
+      this.specialSkill = specialSkill;
+      this.ship = null;
+    }
+    enterShip(Ship) {
+      if(Ship.type === jobTypes[this.job]){
+        this.ship = Ship;
+        Ship.crew.push(this);
+      } else {
+        console.log(`Crewmember ${this.name} does not have access to ${Ship.name}`);
+      }
+    }
+  }
+
+  class Ship {
+    constructor(name, type, ability) {
+      this.name = name;
+      this.type = type;
+      this.ability = ability;
+      this.crew = [];
+    }
+    missionStatement() {
+      if(this.crew.length) {
+        return this.ability;
+      }
+      return 'Can\'t perform a mission yet.';
+    }
+  }
+
+
 //tests
 if (typeof describe === 'function'){
   describe('CrewMember', function(){
