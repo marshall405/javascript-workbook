@@ -33,18 +33,28 @@ const rl = readline.createInterface({
   // Once you are a king, you can move back and forth diagonally.
 
 // Whiteboard
+                    // [ [ null, null, null, null, null, null, null, null ],
+                    //   [ null, null, null, null, null, null, null, null ],
+                    //   [ null, null, null, null, null, null, null, null ],
+                    //   [ null, null, null, null, null, null, null, null ],
+                    //   [ null, null, null, null, null, null, null, null ],
+                    //   [ null, null, null, null, null, null, null, null ],
+                    //   [ null, null, null, null, null, null, null, null ],
+                    //   [ null, null, null, null, null, null, null, null ] ]
+
 // Class Game is parent function
-// create a areCoordsValid(), takes two arguments, (which piece, to where), check that coordinates are on the board
-// create a isMoveValid(), takes two arguments, (which piece, to where), 
-          // check that (which piece) is current players checker,
-          // check that (to where) is an empty spot, one diagonal move away from current spot, unless jumping
-          // 
+// create a areCoordsValid(), takes two arguments, (whichPiece, toWhere), check that coordinates are on the board
+// create a isMoveValid(), takes two arguments, (whichPiece, toWhere), 
+          // check that (whichPiece) is current players checker,
+          // check that (toWhere) is an empty spot, one diagonal move away from current spot, unless jumping
+// create moveChecker(), takes two arguments, (whichPiece, toWhere), sets whichPiece to an empty string ' ', and sets toWhere to either r or b
  
 
 
 
 function Checker() {
   // Your code here
+
 }
 
 class Board {
@@ -97,6 +107,10 @@ class Game {
   start() {
     this.board.createGrid();
   }
+  moveChecker(whichPiece, toWhere){
+    this.board.grid[0][0] = {symbol : 'r'};
+    console.log(this.board.grid);
+  }
 }
 
 function getPrompt() {
@@ -111,6 +125,8 @@ function getPrompt() {
 
 const game = new Game();
 game.start();
+console.log(game.board.grid);
+
 
 
 // Tests
