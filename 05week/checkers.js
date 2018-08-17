@@ -7,6 +7,41 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// BOARD
+/* r = red checker, b = black checker
+   0 1 2 3 4 5 6 7
+0    r   r   r   r
+1  r   r   r   r
+2    r   r   r   r
+3
+4
+5  b   b   b   b
+6    b   b   b   b
+7  b   b   b   b
+   0 1 2 3 4 5 6 7  
+*/
+//  --------RULES FOR CHECKERS-----------
+  // Two Players, each start with 12 checkers
+  // Checkers are only able to move forward diagonally one square at a time, unless you are jumping the oppenents checker (see jumping rules)
+  // Cannot move into a spot that is occupied
+  // Cannot move backwards unless you are a King (see king rules).
+// Jumping
+  // Player must jump opponent if there is an available space beyond the opponents checker
+  // After making a jump the player may have another jump availanle and must continue jumping opponents checkers until no more jumps are available 
+// King
+  // To become a King, you must get your checker to the opponents back row other. Turn ends.
+  // Once you are a king, you can move back and forth diagonally.
+
+// Whiteboard
+// Class Game is parent function
+// create a areCoordsValid(), takes two arguments, (which piece, to where), check that coordinates are on the board
+// create a isMoveValid(), takes two arguments, (which piece, to where), 
+          // check that (which piece) is current players checker,
+          // check that (to where) is an empty spot, one diagonal move away from current spot, unless jumping
+          // 
+ 
+
+
 
 function Checker() {
   // Your code here
@@ -55,11 +90,6 @@ class Board {
   // Your code here
 }
 
-// Game is parent function
-// render checkers on board (r and b) only coords added together is odd
-// check if move is valid
-  // can only move diagonal
-// 
 class Game {
   constructor() {
     this.board = new Board;
