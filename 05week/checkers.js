@@ -55,6 +55,11 @@ class Board {
   // Your code here
 }
 
+// Game is parent function
+// render checkers on board (r and b) only coords added together is odd
+// check if move is valid
+  // can only move diagonal
+// 
 class Game {
   constructor() {
     this.board = new Board;
