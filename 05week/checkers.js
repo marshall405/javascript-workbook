@@ -67,24 +67,36 @@ const rl = readline.createInterface({
 
 function Checker(player) {
   // Your code here
-  return {symbol : player};
+  let symbol = player === 'red' ? 'R' : 'B';
+  return {
+    symbol: symbol,
+    player: player,
+    isKing: false
+  }
 }
 
 class Board {
   constructor() {
-    this.grid = [];
+    this.grid = [ [ null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 0
+                  [ {symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null ],   // row 1
+                  [ null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 2
+                  [ null, null, null, null, null, null, null, null ],   // row 3
+                  [ null, null, null, null, null, null, null, null ],   // row 4
+                  [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ],   // row 5
+                  [ null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false} ],   // row 6
+                  [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ] ];  // row 7
     this.checkers = [];
   }
   // method that creates an 8x8 array, filled with null values
   createGrid() {
     // loop to create the 8 rows
-    for (let row = 0; row < 8; row++) {
-      this.grid[row] = [];
-      // push in 8 columns of nulls
-      for (let column = 0; column < 8; column++) {
-        this.grid[row].push(null);
-      }
-    }
+    // for (let row = 0; row < 8; row++) {
+    //   this.grid[row] = [];
+    //   // push in 8 columns of nulls
+    //   for (let column = 0; column < 8; column++) {
+    //     this.grid[row].push(null);
+    //   }
+    // }
   }
   viewGrid() {
     // add our column numbers
@@ -112,27 +124,65 @@ class Board {
   }
 
   // Your code here
-  // add checkers to the board
-  addCheckers() {
-    
-  }
+    // addCheckers() {
+    //   // add red checkers, grid [0] - [2]
+    //   for(let i = 0; i < this.grid.length; i++){
+
+    //   }
+    // }
 }
 
 class Game {
   constructor() {
     this.board = new Board;
+    this.currentPlayer = 'black';
   }
   start() {
     this.board.createGrid();
   }
-  moveChecker(whichPiece, toWhere){
-    if(areValidCoords(whichPiece, toWhere)){
-      if(isValidMove(whichPiece, toWhere)){
-        // coords are valid and move is valid, go ahead and move piece
+  areCoordsValid(coords){
+    return (coords.y <= 7 && coords.y >= 0) && (coords.x <= 7 && coords.x >= 0);
+  }
+  isEndEmpty(end){
+    return this.board.grid[end.y][end.x] === null;
+  }
+  isMoveValid(start, end) {
+    if(this.board.grid[start.y][start.x] !== null){
+      if(this.board.grid[start.y][start.x].player === this.currentPlayer){
+        if(this.isEndEmpty(end)){
+          // START BACK HERE...........................................................................................................................
+        }
+      // returns truthy
       }
     }
-    this.board.grid[0][0] = {symbol : 'r'};
-    console.log(this.board.grid);
+
+
+
+    return true;
+  }
+  moveChecker(whichPiece, toWhere){
+    const start = {
+      y: Number(whichPiece[0]),
+      x: Number(whichPiece[1])
+    }
+    const end = {
+      y: Number(toWhere[0]),
+      x: Number(toWhere[1]) 
+    }
+    if(this.areCoordsValid(start) && this.areCoordsValid(end)){
+      if(this.isMoveValid(start, end)){
+        const tempHolder = this.board.grid[start.y][start.x];
+        this.board.grid[start.y][start.x] = null;
+        this.board.grid[end.y][end.x] = tempHolder;
+        this.currentPlayer = this.currentPlayer === 'black' ? 'red' : 'black';
+      }else {
+        // move is invalid
+        console.log('Invalid Move');
+      }
+    } else {
+      // coordinates are invalid
+      console.log('Invalid Coordinates');
+    }
   }
 }
 
