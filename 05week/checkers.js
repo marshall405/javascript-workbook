@@ -33,6 +33,7 @@ const rl = readline.createInterface({
   // Once you are a king, you can move back and forth diagonally.
 
 // Whiteboard
+                    // The Board
                     // [ [ null, null, null, null, null, null, null, null ],
                     //   [ null, null, null, null, null, null, null, null ],
                     //   [ null, null, null, null, null, null, null, null ],
@@ -41,25 +42,38 @@ const rl = readline.createInterface({
                     //   [ null, null, null, null, null, null, null, null ],
                     //   [ null, null, null, null, null, null, null, null ],
                     //   [ null, null, null, null, null, null, null, null ] ]
+// WHAT I WANT
+// I want the game to follow the rules from above
+// I want the board to show the current state of all pieces left on the board
+// I want to input coordinates for the piece I want to move
+// I want to input coordinates to where I want that piece to move
+// I want the game to tell me if a move is invalid
+// I want the game to clear an opponents piece when I jump them
+// I want the game to keep track of whos turn it is, and tell me when there is a winner
 
-// Class Game is parent function
-// create a areCoordsValid(), takes two arguments, (whichPiece, toWhere), check that coordinates are on the board
-// create a isMoveValid(), takes two arguments, (whichPiece, toWhere), 
-          // check that (whichPiece) is current players checker,
-          // check that (toWhere) is an empty spot, one diagonal move away from current spot, unless jumping
-// create moveChecker(), takes two arguments, (whichPiece, toWhere), sets whichPiece to an empty string ' ', and sets toWhere to either r or b
- 
+// new Game will be parent function.
+  // add starting checkers to the board
+  // create a areCoordsValid(), takes two arguments, (whichPiece, toWhere), check that coordinates are on the board
+  // create a isMoveValid(), takes two arguments, (whichPiece, toWhere), 
+            // check that (whichPiece) is current players checker,
+            // check that (toWhere) is an empty spot, one diagonal move away from current spot, unless jumping
+  // create moveChecker(), takes two arguments, (whichPiece, toWhere), sets whichPiece to an empty string ' ', and sets toWhere to either r or b
+
+  // create addCheckers() method to Class Board that adds 24 checkers to the grid
+  // ADD CHECKERS TO BOARD
+// 
 
 
 
-function Checker() {
+function Checker(player) {
   // Your code here
-
+  return {symbol : player};
 }
 
 class Board {
   constructor() {
-    this.grid = []
+    this.grid = [];
+    this.checkers = [];
   }
   // method that creates an 8x8 array, filled with null values
   createGrid() {
@@ -98,6 +112,10 @@ class Board {
   }
 
   // Your code here
+  // add checkers to the board
+  addCheckers() {
+    
+  }
 }
 
 class Game {
@@ -108,6 +126,11 @@ class Game {
     this.board.createGrid();
   }
   moveChecker(whichPiece, toWhere){
+    if(areValidCoords(whichPiece, toWhere)){
+      if(isValidMove(whichPiece, toWhere)){
+        // coords are valid and move is valid, go ahead and move piece
+      }
+    }
     this.board.grid[0][0] = {symbol : 'r'};
     console.log(this.board.grid);
   }
@@ -125,7 +148,6 @@ function getPrompt() {
 
 const game = new Game();
 game.start();
-console.log(game.board.grid);
 
 
 
