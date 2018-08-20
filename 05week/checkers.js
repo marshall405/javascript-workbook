@@ -63,38 +63,47 @@ const rl = readline.createInterface({
   // ADD CHECKERS TO BOARD
 // 
 
-
+// check input to make sure coordinates are valid - between 0 and 7, starting coordinate has a checker, ending coordinate is an empty space.
+// 
 
 function Checker(player) {
   // Your code here
   return {
-    symbol: symbol,
+    symbol: player,
     isKing: false
   }
 }
 
 class Board {
   constructor() {
-    this.grid = [ [ null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 0
-                  [ {symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null ],   // row 1
-                  [ null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 2
-                  [ null, null, null, null, null, null, null, null ],   // row 3
-                  [ null, null, null, null, null, null, null, null ],   // row 4
-                  [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ],   // row 5
-                  [ null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false} ],   // row 6
-                  [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ] ];  // row 7
-    this.checkers = [];
+    // this.grid = [ [ null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 0
+    //               [ {symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null ],   // row 1
+    //               [ null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 2
+    //               [ null, null, null, null, null, null, null, null ],   // row 3
+    //               [ null, null, null, null, null, null, null, null ],   // row 4
+    //               [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ],   // row 5
+    //               [ null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false} ],   // row 6
+    //               [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ] ];  // row 7
+    
+    this.grid = [];
+    this.checkers = {
+      'R': [],
+      'B': [],
+      get length(){
+        return this['R'].length + this['B'].length;
+      }
+    };
   }
   // method that creates an 8x8 array, filled with null values
   createGrid() {
-    // loop to create the 8 rows
-    // for (let row = 0; row < 8; row++) {
-    //   this.grid[row] = [];
-    //   // push in 8 columns of nulls
-    //   for (let column = 0; column < 8; column++) {
-    //     this.grid[row].push(null);
-    //   }
-    // }
+    //loop to create the 8 rows
+    for (let row = 0; row < 8; row++) {
+      this.grid[row] = [];
+      // push in 8 columns of nulls
+      for (let column = 0; column < 8; column++) {
+        this.grid[row].push(null);
+      }
+    }
   }
   viewGrid() {
     // add our column numbers
@@ -120,14 +129,30 @@ class Board {
     }
     console.log(string);
   }
-
-  // Your code here
-    // addCheckers() {
-    //   // add red checkers, grid [0] - [2]
-    //   for(let i = 0; i < this.grid.length; i++){
-
-    //   }
-    // }
+  initBoard(){
+    // create 24 checkers, 12 red and 12 black
+    for(let i = 0; i < 12; i++){
+      this.checkers['R'].push(Checker('R'));
+      this.checkers['B'].push(Checker('B'));
+    }
+    // add red checkers to board
+    for(let row = 0; row < 3; row++){
+      for(let column = 0; column < this.grid[row].length; column++){
+        // add four checkers per row
+        if((row + column) % 2 !== 0){
+          this.grid[row][column] = Checker('R');
+        }
+      }
+    }
+    // add black checkers to board
+    for(let row = 5; row < 8; row++){
+      for(let column = 0; column < this.grid[row].length; column++){
+        if((row + column) % 2 !== 0){
+          this.grid[row][column] = Checker('B');
+        }
+      }
+    }
+  }
 }
 
 class Game {
@@ -137,6 +162,7 @@ class Game {
   }
   start() {
     this.board.createGrid();
+    this.board.initBoard();
   }
   areCoordsValid(start, end){
     // between 0 and 7
@@ -148,9 +174,15 @@ class Game {
   }
   isJumpValid(start, end){
     if(this.currentPlayer === 'B'){
-      return this.board.grid[start.y - 1][start.x - ((start.x - end.x) - 1)].symbol !== 'B';
+      if(end.x < start.x){
+        return this.board.grid[start.y - 1][start.x - 1].symbol !== 'B';
+      }
+      return this.board.grid[start.y - 1][start.x + 1].symbol !== 'B';
     } else {
-      return this.board.grid[start.y + 1][start.x - ((start.x - end.x) - 1)].symbol !== 'R';
+      if(end.x < start.x){
+        return this.board.grid[start.y + 1][start.x - 1].symbol !== 'R';
+      }
+      return this.board.grid[start.y + 1][start.x + 1].symbol !== 'R';
     }
   }
   isMoveValid(start, end) {
@@ -162,14 +194,9 @@ class Game {
   getChecker(checker) {
     return this.board.grid[checker.y][checker.x];
   }
-  difference(num1, num2){
-    return num1 - num2;
-  }
   isAJump(start, end) {
     return (end.y - start.y === -2) || (end.y - start.y === 2);
   }
-
-  
   switchPlayer() {
     this.currentPlayer = this.currentPlayer === 'B' ? 'R' : 'B';
   }
@@ -190,16 +217,24 @@ class Game {
             this.board.grid[end.y][end.x] = this.getChecker(start);
             this.board.grid[start.y][start.x] = null;
             if(this.currentPlayer === 'B'){
-              this.board.grid[start.y - 1][start.x - ((start.x - end.x) - 1)] = null; // continue here.....getting rid of the wrong checker....
+              if(end.x < start.x){
+                this.board.grid[start.y - 1][start.x - 1] = null;
+              } else {
+                this.board.grid[start.y - 1][start.x + 1] = null;
+              }
             } else {
-              this.board.grid[start.y + 1][start.x - ((start.x - end.x) - 1)] = null;
+              if(end.x < start.x){
+                 this.board.grid[start.y + 1][start.x - 1] = null;
+              } else {
+                this.board.grid[start.y + 1][start.x + 1] = null;
+              }
             }
-            this.switchPlayer()
+            this.board.checkers[this.currentPlayer].pop();
+            this.switchPlayer();
           } else {
             console.log('Invalid jump');
           }
-        }
-        if(this.isMoveValid(start, end)){
+        } else if(this.isMoveValid(start, end)){
           // move checker 1 move
           this.board.grid[end.y][end.x] = this.getChecker(start);
           this.board.grid[start.y][start.x] = null;
@@ -214,41 +249,6 @@ class Game {
       console.log('Invalid coordinates');
     }
   }
-  //     if(this.isMoveValid(start, end) === 'valid jump'){
-  //       // jump checker
-  //       if(this.currentPlayer === 'B'){
-  //         // B's y axis moves up (y decreases)
-  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
-  //         this.board.grid[start.y][start.x] = null;
-  //         this.board.grid[start.y - 1][start.x] = null;
-  //         this.switchPlayer();
-  //       } else {
-  //         // R's y axis moves down (y increases)
-  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
-  //         this.board.grid[start.y][start.x] = null;
-  //         this.board.grid[start.y + 1][start.x] = null;
-  //         this.switchPlayer();
-  //       }
-  //       // not a jump
-  //     }else if(this.isMoveValid(start, end) === 'move checker') {
-  //       if(this.currentPlayer === 'B'){
-  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
-  //         this.board.grid[start.y][start.x] = null;
-  //         this.switchPlayer();
-  //       } else {
-  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
-  //         this.board.grid[start.y][start.x] = null;
-  //         this.switchPlayer();
-  //       }
-  //     } else {
-  //       // move is invalid
-  //       console.log('Invalid Move');
-  //     }
-  //   } else {
-  //     // coordinates are invalid
-  //     console.log('Invalid Coordinates');
-  //   }
-  // }
 }
 
 function getPrompt() {
@@ -263,6 +263,7 @@ function getPrompt() {
 }
 
 const game = new Game();
+
 game.start();
 
 
