@@ -7,19 +7,6 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// BOARD
-/* r = red checker, b = black checker
-   0 1 2 3 4 5 6 7
-0    r   r   r   r
-1  r   r   r   r
-2    r   r   r   r
-3
-4
-5  b   b   b   b
-6    b   b   b   b
-7  b   b   b   b
-   0 1 2 3 4 5 6 7  
-*/
 //  --------RULES FOR CHECKERS-----------
   // Two Players, each start with 12 checkers
   // Checkers are only able to move forward diagonally one square at a time, unless you are jumping the oppenents checker (see jumping rules)
@@ -43,21 +30,27 @@ const rl = readline.createInterface({
                     //   [ null, null, null, null, null, null, null, null ],
                     //   [ null, null, null, null, null, null, null, null ] ]
 
-// new game.moveChecker will be parent function.
-  // add starting checkers to the board
-    // create init function that creates 24 checkers and add them to the board
-  // create a areCoordsValid(), takes two arguments, (whichPiece, toWhere), check that coordinates are on the board and the starting coord is a checker and ending coord is empty
-  // create a isMoveValid(), takes two arguments, (whichPiece, toWhere), 
+// new Game()
+  // moveChecker() is the parent function and takes two arguments, the starting point and ending point.
+    // areCoordsValid(), takes two arguments, (start, end),
+      /* 1) check that coordinates are on the board,
+         2) check that the starting point containes a checker,
+         3) check that ending point is empty */
+    // create isAJump(), takes two argumets, (start, end)
+      // check that end point is either plus or minus 2 on the y and x point
+    // create isAValidJump(), takes two arguments, (start, end)
+      // check that the piece being jumped is a checker
+      // check that the piece being jumped is the opponents checker
+    // create a isMoveValid(), takes two arguments, (start, end),
+      // checks that the starting point is plus or minus 1 for both the ending y and x points 
+    // if areCoordsValid and isAJump and isAValidJump -> jump checker -> check for another jump
+    // else if areCoordsValid but !isAJump and isMoveValid -> move checker 1 square
+  //Board
+    // create initBoard that creates and adds the checkers to the board
 
- 
-  // create moveChecker(), takes two arguments, (whichPiece, toWhere), sets whichPiece to an empty string ' ', and sets toWhere to either r or b
 
-  // create addCheckers() method to Class Board that adds 24 checkers to the grid
-  // ADD CHECKERS TO BOARD
-// 
+    // WORK ON ADDING A KING FEATURE
 
-// check input to make sure coordinates are valid - between 0 and 7, starting coordinate has a checker, ending coordinate is an empty space.
-// 
 
 function Checker(player) {
   // Your code here
@@ -71,10 +64,10 @@ class Board {
   constructor() {
     this.grid = [];
     this.checkers = {
-      'R': [],
-      'B': [],
+      'r': [],
+      'b': [],
       get length(){
-        return this['R'].length + this['B'].length;
+        return this['r'].length + this['b'].length;
       }
     };
   }
@@ -117,14 +110,14 @@ class Board {
   initBoard(){
     // create 24 checkers, 12 red and 12 black
     for(let i = 0; i < 12; i++){
-      this.checkers['R'].push(Checker('R'));
-      this.checkers['B'].push(Checker('B'));
+      this.checkers['r'].push(Checker('r'));
+      this.checkers['b'].push(Checker('b'));
     }
     // add red checkers to board
     for(let row = 0; row < 3; row++){
       for(let column = 0; column < this.grid[row].length; column++){
         if((row + column) % 2 !== 0){
-          this.grid[row][column] = Checker('R');
+          this.grid[row][column] = Checker('r');
         }
       }
     }
@@ -132,7 +125,7 @@ class Board {
     for(let row = 5; row < 8; row++){
       for(let column = 0; column < this.grid[row].length; column++){
         if((row + column) % 2 !== 0){
-          this.grid[row][column] = Checker('B');
+          this.grid[row][column] = Checker('b');
         }
       }
     }
@@ -142,7 +135,7 @@ class Board {
 class Game {
   constructor() {
     this.board = new Board;
-    this.currentPlayer = 'B';
+    this.currentPlayer = 'b';
   }
   start() {
     this.board.createGrid();
@@ -155,18 +148,20 @@ class Game {
     return isNumberBetween0And7(start) && isNumberBetween0And7(end) && areCoordsOdd(start) && areCoordsOdd(end) && !isCoordEmpty(start) && isCoordEmpty(end);
   }
   isJumpValid(start, end){
+    // check that coords are valid again (useful for when checking for another jump)
     if(this.areCoordsValid(start, end)){
-      if(this.currentPlayer === 'B'){
+      // if currentPlayer is 'b' the y coordinates decrease
+      if(this.currentPlayer === 'b'){
         if(end.x < start.x){
-          return this.board.grid[start.y - 1][start.x - 1] && this.board.grid[start.y - 1][start.x - 1].symbol !== 'B';
+          return this.board.grid[start.y - 1][start.x - 1] && this.board.grid[start.y - 1][start.x - 1].symbol !== 'b';
         }
-        return this.board.grid[start.y - 1][start.x + 1] && this.board.grid[start.y - 1][start.x + 1].symbol !== 'B';
+        return this.board.grid[start.y - 1][start.x + 1] && this.board.grid[start.y - 1][start.x + 1].symbol !== 'b';
       } else {
         if(end.x < start.x){
           // start 
-          return this.board.grid[start.y + 1][start.x - 1] && this.board.grid[start.y + 1][start.x - 1].symbol !== 'R';
+          return this.board.grid[start.y + 1][start.x - 1] && this.board.grid[start.y + 1][start.x - 1].symbol !== 'r';
         }
-        return this.board.grid[start.y + 1][start.x + 1] && this.board.grid[start.y + 1][start.x + 1].symbol !== 'R';
+        return this.board.grid[start.y + 1][start.x + 1] && this.board.grid[start.y + 1][start.x + 1].symbol !== 'r';
       }
     }
   }
@@ -183,10 +178,10 @@ class Game {
     return (end.y - start.y === -2) || (end.y - start.y === 2);
   }
   switchPlayer() {
-    this.currentPlayer = this.currentPlayer === 'B' ? 'R' : 'B';
+    this.currentPlayer = this.currentPlayer === 'b' ? 'r' : 'b';
   }
   canJumpAgain(end){
-    if(this.currentPlayer === 'B'){
+    if(this.currentPlayer === 'b'){
       if(end.y >= 3){
         return this.isJumpValid(end, {y: end.y - 2, x: end.x -2}) || this.isJumpValid(end, {y: end.y - 2, x: end.x + 2});
       }
@@ -212,7 +207,7 @@ class Game {
             // jump checker
             this.board.grid[end.y][end.x] = this.getChecker(start);
             this.board.grid[start.y][start.x] = null;
-            if(this.currentPlayer === 'B'){
+            if(this.currentPlayer === 'b'){
               if(end.x < start.x){
                 this.board.grid[start.y - 1][start.x - 1] = null;
               } else {
@@ -225,7 +220,7 @@ class Game {
                 this.board.grid[start.y + 1][start.x + 1] = null;
               }
             }
-            this.board.checkers[this.currentPlayer === 'B' ? 'R' : 'B'].pop();
+            this.board.checkers[this.currentPlayer === 'b' ? 'r' : 'b'].pop();
             if(!this.canJumpAgain(end)){
               // if no jump available, switch player
               this.switchPlayer();
@@ -252,9 +247,9 @@ class Game {
 
 function getPrompt() {
   game.board.viewGrid();
-  console.log(`RED: ${game.board.checkers['R'].length}`);
-  console.log(`BLACK: ${game.board.checkers['B'].length}`);
-  console.log(`Current player: ${game.currentPlayer === 'B' ? 'Black' : 'Red'}`);
+  console.log(`RED: ${game.board.checkers['r'].length}`);
+  console.log(`BLACK: ${game.board.checkers['b'].length}`);
+  console.log(`Current player: ${game.currentPlayer === 'b' ? 'Black' : 'Red'}`);
   rl.question('which piece?: ', (whichPiece) => {
     rl.question('to where?: ', (toWhere) => {
       game.moveChecker(whichPiece, toWhere);
