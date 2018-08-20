@@ -42,21 +42,14 @@ const rl = readline.createInterface({
                     //   [ null, null, null, null, null, null, null, null ],
                     //   [ null, null, null, null, null, null, null, null ],
                     //   [ null, null, null, null, null, null, null, null ] ]
-// WHAT I WANT
-// I want the game to follow the rules from above
-// I want the board to show the current state of all pieces left on the board
-// I want to input coordinates for the piece I want to move
-// I want to input coordinates to where I want that piece to move
-// I want the game to tell me if a move is invalid
-// I want the game to clear an opponents piece when I jump them
-// I want the game to keep track of whos turn it is, and tell me when there is a winner
 
-// new Game will be parent function.
+// new game.moveChecker will be parent function.
   // add starting checkers to the board
-  // create a areCoordsValid(), takes two arguments, (whichPiece, toWhere), check that coordinates are on the board
+    // create init function that creates 24 checkers and add them to the board
+  // create a areCoordsValid(), takes two arguments, (whichPiece, toWhere), check that coordinates are on the board and the starting coord is a checker and ending coord is empty
   // create a isMoveValid(), takes two arguments, (whichPiece, toWhere), 
-            // check that (whichPiece) is current players checker,
-            // check that (toWhere) is an empty spot, one diagonal move away from current spot, unless jumping
+
+ 
   // create moveChecker(), takes two arguments, (whichPiece, toWhere), sets whichPiece to an empty string ' ', and sets toWhere to either r or b
 
   // create addCheckers() method to Class Board that adds 24 checkers to the grid
@@ -76,15 +69,6 @@ function Checker(player) {
 
 class Board {
   constructor() {
-    // this.grid = [ [ null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 0
-    //               [ {symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null,{symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null ],   // row 1
-    //               [ null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false}, null, {symbol: 'R', isKing: false} ],   // row 2
-    //               [ null, null, null, null, null, null, null, null ],   // row 3
-    //               [ null, null, null, null, null, null, null, null ],   // row 4
-    //               [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ],   // row 5
-    //               [ null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false} ],   // row 6
-    //               [ {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null, {symbol: 'B', isKing: false}, null ] ];  // row 7
-    
     this.grid = [];
     this.checkers = {
       'R': [],
@@ -129,6 +113,7 @@ class Board {
     }
     console.log(string);
   }
+  // create checkers and add to grid
   initBoard(){
     // create 24 checkers, 12 red and 12 black
     for(let i = 0; i < 12; i++){
@@ -138,7 +123,6 @@ class Board {
     // add red checkers to board
     for(let row = 0; row < 3; row++){
       for(let column = 0; column < this.grid[row].length; column++){
-        // add four checkers per row
         if((row + column) % 2 !== 0){
           this.grid[row][column] = Checker('R');
         }
@@ -165,9 +149,7 @@ class Game {
     this.board.initBoard();
   }
   areCoordsValid(start, end){
-    // between 0 and 7
     const isNumberBetween0And7 = number => (number.y <= 7 && number.y >= 0) && (number.x <= 7 && number.x >= 0);
-    // checkers are on grid coordinates that when added together are odd
     const areCoordsOdd = coords => coords.x + coords.y % 2 !== 0;
     const isCoordEmpty = coord => this.board.grid[coord.y][coord.x] === null;
     return isNumberBetween0And7(start) && isNumberBetween0And7(end) && areCoordsOdd(start) && areCoordsOdd(end) && !isCoordEmpty(start) && isCoordEmpty(end);
@@ -175,14 +157,14 @@ class Game {
   isJumpValid(start, end){
     if(this.currentPlayer === 'B'){
       if(end.x < start.x){
-        return this.board.grid[start.y - 1][start.x - 1].symbol !== 'B';
+        return this.board.grid[start.y - 1][start.x - 1] && this.board.grid[start.y - 1][start.x - 1].symbol !== 'B';
       }
-      return this.board.grid[start.y - 1][start.x + 1].symbol !== 'B';
+      return this.board.grid[start.y - 1][start.x + 1] && this.board.grid[start.y - 1][start.x + 1].symbol !== 'B';
     } else {
       if(end.x < start.x){
-        return this.board.grid[start.y + 1][start.x - 1].symbol !== 'R';
+        return this.board.grid[start.y + 1][start.x - 1] && this.board.grid[start.y + 1][start.x - 1].symbol !== 'R';
       }
-      return this.board.grid[start.y + 1][start.x + 1].symbol !== 'R';
+      return this.board.grid[start.y + 1][start.x + 1] && this.board.grid[start.y + 1][start.x + 1].symbol !== 'R';
     }
   }
   isMoveValid(start, end) {
