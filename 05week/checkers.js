@@ -67,10 +67,8 @@ const rl = readline.createInterface({
 
 function Checker(player) {
   // Your code here
-  let symbol = player === 'red' ? 'R' : 'B';
   return {
     symbol: symbol,
-    player: player,
     isKing: false
   }
 }
@@ -135,30 +133,45 @@ class Board {
 class Game {
   constructor() {
     this.board = new Board;
-    this.currentPlayer = 'black';
+    this.currentPlayer = 'B';
   }
   start() {
     this.board.createGrid();
   }
-  areCoordsValid(coords){
-    return (coords.y <= 7 && coords.y >= 0) && (coords.x <= 7 && coords.x >= 0);
+  areCoordsValid(start, end){
+    // between 0 and 7
+    const isNumberBetween0And7 = number => (number.y <= 7 && number.y >= 0) && (number.x <= 7 && number.x >= 0);
+    // checkers are on grid coordinates that when added together are odd
+    const areCoordsOdd = coords => coords.x + coords.y % 2 !== 0;
+    const isCoordEmpty = coord => this.board.grid[coord.y][coord.x] === null;
+    return isNumberBetween0And7(start) && isNumberBetween0And7(end) && areCoordsOdd(start) && areCoordsOdd(end) && !isCoordEmpty(start) && isCoordEmpty(end);
   }
-  isEndEmpty(end){
-    return this.board.grid[end.y][end.x] === null;
+  isJumpValid(start, end){
+    if(this.currentPlayer === 'B'){
+      return this.board.grid[start.y - 1][start.x - ((start.x - end.x) - 1)].symbol !== 'B';
+    } else {
+      return this.board.grid[start.y + 1][start.x - ((start.x - end.x) - 1)].symbol !== 'R';
+    }
   }
   isMoveValid(start, end) {
-    if(this.board.grid[start.y][start.x] !== null){
-      if(this.board.grid[start.y][start.x].player === this.currentPlayer){
-        if(this.isEndEmpty(end)){
-          // START BACK HERE...........................................................................................................................
-        }
-      // returns truthy
-      }
-    }
+    return (end.y - start.y === -1) || (end.y - start.y === 1); 
+  }
+  isPlayersTurn(start) {
+    return this.currentPlayer === this.getChecker(start).symbol;
+  }
+  getChecker(checker) {
+    return this.board.grid[checker.y][checker.x];
+  }
+  difference(num1, num2){
+    return num1 - num2;
+  }
+  isAJump(start, end) {
+    return (end.y - start.y === -2) || (end.y - start.y === 2);
+  }
 
-
-
-    return true;
+  
+  switchPlayer() {
+    this.currentPlayer = this.currentPlayer === 'B' ? 'R' : 'B';
   }
   moveChecker(whichPiece, toWhere){
     const start = {
@@ -169,25 +182,78 @@ class Game {
       y: Number(toWhere[0]),
       x: Number(toWhere[1]) 
     }
-    if(this.areCoordsValid(start) && this.areCoordsValid(end)){
-      if(this.isMoveValid(start, end)){
-        const tempHolder = this.board.grid[start.y][start.x];
-        this.board.grid[start.y][start.x] = null;
-        this.board.grid[end.y][end.x] = tempHolder;
-        this.currentPlayer = this.currentPlayer === 'black' ? 'red' : 'black';
+    if(this.areCoordsValid(start, end)){
+      if(this.isPlayersTurn(start)){
+        if(this.isAJump(start, end)){
+          if(this.isJumpValid(start, end)){
+            // jump checker
+            this.board.grid[end.y][end.x] = this.getChecker(start);
+            this.board.grid[start.y][start.x] = null;
+            if(this.currentPlayer === 'B'){
+              this.board.grid[start.y - 1][start.x - ((start.x - end.x) - 1)] = null; // continue here.....getting rid of the wrong checker....
+            } else {
+              this.board.grid[start.y + 1][start.x - ((start.x - end.x) - 1)] = null;
+            }
+            this.switchPlayer()
+          } else {
+            console.log('Invalid jump');
+          }
+        }
+        if(this.isMoveValid(start, end)){
+          // move checker 1 move
+          this.board.grid[end.y][end.x] = this.getChecker(start);
+          this.board.grid[start.y][start.x] = null;
+          this.switchPlayer();
+        }else {
+          console.log('Invalid Move');
+        }
       }else {
-        // move is invalid
-        console.log('Invalid Move');
+        console.log('Must select your own checker');
       }
-    } else {
-      // coordinates are invalid
-      console.log('Invalid Coordinates');
+    }else {
+      console.log('Invalid coordinates');
     }
   }
+  //     if(this.isMoveValid(start, end) === 'valid jump'){
+  //       // jump checker
+  //       if(this.currentPlayer === 'B'){
+  //         // B's y axis moves up (y decreases)
+  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
+  //         this.board.grid[start.y][start.x] = null;
+  //         this.board.grid[start.y - 1][start.x] = null;
+  //         this.switchPlayer();
+  //       } else {
+  //         // R's y axis moves down (y increases)
+  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
+  //         this.board.grid[start.y][start.x] = null;
+  //         this.board.grid[start.y + 1][start.x] = null;
+  //         this.switchPlayer();
+  //       }
+  //       // not a jump
+  //     }else if(this.isMoveValid(start, end) === 'move checker') {
+  //       if(this.currentPlayer === 'B'){
+  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
+  //         this.board.grid[start.y][start.x] = null;
+  //         this.switchPlayer();
+  //       } else {
+  //         this.board.grid[end.y][end.x] = this.board.grid[start.y][start.x];
+  //         this.board.grid[start.y][start.x] = null;
+  //         this.switchPlayer();
+  //       }
+  //     } else {
+  //       // move is invalid
+  //       console.log('Invalid Move');
+  //     }
+  //   } else {
+  //     // coordinates are invalid
+  //     console.log('Invalid Coordinates');
+  //   }
+  // }
 }
 
 function getPrompt() {
   game.board.viewGrid();
+  console.log(`Current player: ${game.currentPlayer === 'B' ? 'Black' : 'Red'}`);
   rl.question('which piece?: ', (whichPiece) => {
     rl.question('to where?: ', (toWhere) => {
       game.moveChecker(whichPiece, toWhere);
