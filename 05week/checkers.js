@@ -155,20 +155,23 @@ class Game {
     return isNumberBetween0And7(start) && isNumberBetween0And7(end) && areCoordsOdd(start) && areCoordsOdd(end) && !isCoordEmpty(start) && isCoordEmpty(end);
   }
   isJumpValid(start, end){
-    if(this.currentPlayer === 'B'){
-      if(end.x < start.x){
-        return this.board.grid[start.y - 1][start.x - 1] && this.board.grid[start.y - 1][start.x - 1].symbol !== 'B';
+    if(this.areCoordsValid(start, end)){
+      if(this.currentPlayer === 'B'){
+        if(end.x < start.x){
+          return this.board.grid[start.y - 1][start.x - 1] && this.board.grid[start.y - 1][start.x - 1].symbol !== 'B';
+        }
+        return this.board.grid[start.y - 1][start.x + 1] && this.board.grid[start.y - 1][start.x + 1].symbol !== 'B';
+      } else {
+        if(end.x < start.x){
+          // start 
+          return this.board.grid[start.y + 1][start.x - 1] && this.board.grid[start.y + 1][start.x - 1].symbol !== 'R';
+        }
+        return this.board.grid[start.y + 1][start.x + 1] && this.board.grid[start.y + 1][start.x + 1].symbol !== 'R';
       }
-      return this.board.grid[start.y - 1][start.x + 1] && this.board.grid[start.y - 1][start.x + 1].symbol !== 'B';
-    } else {
-      if(end.x < start.x){
-        return this.board.grid[start.y + 1][start.x - 1] && this.board.grid[start.y + 1][start.x - 1].symbol !== 'R';
-      }
-      return this.board.grid[start.y + 1][start.x + 1] && this.board.grid[start.y + 1][start.x + 1].symbol !== 'R';
     }
   }
   isMoveValid(start, end) {
-    return (end.y - start.y === -1) || (end.y - start.y === 1); 
+    return (end.y - start.y === -1 || end.y - start.y === 1) && (end.x - start.x === 1 || end.x - start.x === -1); 
   }
   isPlayersTurn(start) {
     return this.currentPlayer === this.getChecker(start).symbol;
@@ -181,6 +184,17 @@ class Game {
   }
   switchPlayer() {
     this.currentPlayer = this.currentPlayer === 'B' ? 'R' : 'B';
+  }
+  canJumpAgain(end){
+    if(this.currentPlayer === 'B'){
+      if(end.y >= 3){
+        return this.isJumpValid(end, {y: end.y - 2, x: end.x -2}) || this.isJumpValid(end, {y: end.y - 2, x: end.x + 2});
+      }
+    } else {
+      if(end.y <= 5){
+        return this.isJumpValid(end, {y: end.y + 2, x: end.x -2}) || this.isJumpValid(end, {y: end.y + 2, x: end.x + 2});
+      }
+    }
   }
   moveChecker(whichPiece, toWhere){
     const start = {
@@ -211,8 +225,11 @@ class Game {
                 this.board.grid[start.y + 1][start.x + 1] = null;
               }
             }
-            this.board.checkers[this.currentPlayer].pop();
-            this.switchPlayer();
+            this.board.checkers[this.currentPlayer === 'B' ? 'R' : 'B'].pop();
+            if(!this.canJumpAgain(end)){
+              // if no jump available, switch player
+              this.switchPlayer();
+            }
           } else {
             console.log('Invalid jump');
           }
@@ -235,6 +252,8 @@ class Game {
 
 function getPrompt() {
   game.board.viewGrid();
+  console.log(`RED: ${game.board.checkers['R'].length}`);
+  console.log(`BLACK: ${game.board.checkers['B'].length}`);
   console.log(`Current player: ${game.currentPlayer === 'B' ? 'Black' : 'Red'}`);
   rl.question('which piece?: ', (whichPiece) => {
     rl.question('to where?: ', (toWhere) => {
