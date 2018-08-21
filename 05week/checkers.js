@@ -158,7 +158,6 @@ class Game {
         return this.board.grid[start.y - 1][start.x + 1] && this.board.grid[start.y - 1][start.x + 1].symbol !== 'b';
       } else {
         if(end.x < start.x){
-          // start 
           return this.board.grid[start.y + 1][start.x - 1] && this.board.grid[start.y + 1][start.x - 1].symbol !== 'r';
         }
         return this.board.grid[start.y + 1][start.x + 1] && this.board.grid[start.y + 1][start.x + 1].symbol !== 'r';
@@ -179,6 +178,7 @@ class Game {
   }
   switchPlayer() {
     this.currentPlayer = this.currentPlayer === 'b' ? 'r' : 'b';
+    this.currentMove = null;
   }
   canJumpAgain(end){
     if(this.currentPlayer === 'b'){
@@ -232,17 +232,15 @@ class Game {
       if(this.isPlayersTurn(start)){
         if(this.isAJump(start, end)){
           if(this.isJumpValid(start, end)){
-            // jump checker
             jumpChecker(start, end);
             // check for king status
             if(end.y === 0 || end.y === 7){
               this.setToKing(end);
               this.switchPlayer();
-            }
-            if(this.canJumpAgain(end)){ 
-              this.currentMove = end;
             } else {
-              this.switchPlayer();
+              if(!this.canJumpAgain(end)){
+                this.switchPlayer();
+              }
             }
           } else {
             console.log('Invalid jump');
@@ -286,6 +284,15 @@ function getPrompt() {
 
 const game = new Game();
 game.start();
+
+
+// game.moveChecker('50', '41')
+// game.moveChecker('21', '30')
+// game.moveChecker('52', '43')
+// game.moveChecker('30', '52')
+// game.moveChecker('63', '41')
+// game.moveChecker('23', '32')
+// game.moveChecker('72', '63')
 
 // Uncomment to see a demo 
 // const seriesOfCalls = [
