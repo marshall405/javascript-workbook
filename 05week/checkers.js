@@ -150,6 +150,12 @@ class Game {
   isJumpValid(start, end){
     // check that coords are valid again (useful for when checking for another jump)
     if(this.areCoordsValid(start, end)){
+      if(this.getChecker(start).isKing){
+        return this.board.grid[start.y - 1][start.x - 1] && this.board.grid[start.y - 1][start.x - 1].symbol !== this.currentPlayer ||
+               this.board.grid[start.y - 1][start.x + 1] && this.board.grid[start.y - 1][start.x + 1].symbol !== this.currentPlayer ||
+               this.board.grid[start.y + 1][start.x + 1] && this.board.grid[start.y + 1][start.x + 1].symbol !== this.currentPlayer ||
+               this.board.grid[start.y + 1][start.x - 1] && this.board.grid[start.y + 1][start.x - 1].symbol !== this.currentPlayer;
+      }
       // if currentPlayer is 'b' the y coordinates decrease
       if(this.currentPlayer === 'b'){
         if(end.x < start.x){
