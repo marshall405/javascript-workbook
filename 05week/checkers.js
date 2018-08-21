@@ -191,6 +191,13 @@ class Game {
       }
     }
   }
+  checkForWinner(){
+    return this.board.checkers[this.currentPlayer === 'b' ? 'r' : 'b'].length === 0;
+  }
+  setToKing(end){
+    this.getChecker(end).isKing = true;
+    this.getChecker(end).symbol = this.getChecker(end).symbol.toUpperCase(); 
+  }
   moveChecker(whichPiece, toWhere){
     const start = {
       y: Number(whichPiece[0]),
@@ -200,29 +207,41 @@ class Game {
       y: Number(toWhere[0]),
       x: Number(toWhere[1]) 
     }
+    const jumpChecker = (start, end) =>{
+      const grid = this.board.grid;
+      grid[end.y][end.x] = this.getChecker(start);
+      grid[start.y][start.x] = null;
+      if(this.currentPlayer === 'b'){
+        const row = grid[start.y - 1];
+        if(end.x < start.x){
+          row[start.x - 1] = null;
+        } else {
+          row[start.x + 1] = null;
+        }
+      } else {
+        const row = grid[start.y + 1];
+        if(end.x < start.x){
+           row[start.x - 1] = null;
+        } else {
+          row[start.x + 1] = null;
+        }
+      }
+      this.board.checkers[this.currentPlayer === 'b' ? 'r' : 'b'].pop();
+    }
     if(this.areCoordsValid(start, end)){
       if(this.isPlayersTurn(start)){
         if(this.isAJump(start, end)){
           if(this.isJumpValid(start, end)){
             // jump checker
-            this.board.grid[end.y][end.x] = this.getChecker(start);
-            this.board.grid[start.y][start.x] = null;
-            if(this.currentPlayer === 'b'){
-              if(end.x < start.x){
-                this.board.grid[start.y - 1][start.x - 1] = null;
-              } else {
-                this.board.grid[start.y - 1][start.x + 1] = null;
-              }
-            } else {
-              if(end.x < start.x){
-                 this.board.grid[start.y + 1][start.x - 1] = null;
-              } else {
-                this.board.grid[start.y + 1][start.x + 1] = null;
-              }
+            jumpChecker(start, end);
+            // check for king status
+            if(end.y === 0 || end.y === 7){
+              this.setToKing(end);
+              this.switchPlayer();
             }
-            this.board.checkers[this.currentPlayer === 'b' ? 'r' : 'b'].pop();
-            if(!this.canJumpAgain(end)){
-              // if no jump available, switch player
+            if(this.canJumpAgain(end)){ 
+              this.currentMove = end;
+            } else {
               this.switchPlayer();
             }
           } else {
@@ -232,6 +251,9 @@ class Game {
           // move checker 1 move
           this.board.grid[end.y][end.x] = this.getChecker(start);
           this.board.grid[start.y][start.x] = null;
+          if(end.y === 0 || end.y === 7){
+            this.setToKing(end);
+          }
           this.switchPlayer();
         }else {
           console.log('Invalid Move');
@@ -250,17 +272,41 @@ function getPrompt() {
   console.log(`RED: ${game.board.checkers['r'].length}`);
   console.log(`BLACK: ${game.board.checkers['b'].length}`);
   console.log(`Current player: ${game.currentPlayer === 'b' ? 'Black' : 'Red'}`);
-  rl.question('which piece?: ', (whichPiece) => {
-    rl.question('to where?: ', (toWhere) => {
-      game.moveChecker(whichPiece, toWhere);
-      getPrompt();
+  if(game.checkForWinner()){
+    console.log(`${game.currentPlayer === 'b' ? 'Black' : 'Red'} Wins!`)
+  } else {
+    rl.question('which piece?: ', (whichPiece) => {
+      rl.question('to where?: ', (toWhere) => {
+        game.moveChecker(whichPiece, toWhere);
+        getPrompt();
+      });
     });
-  });
+  }
 }
 
 const game = new Game();
-
 game.start();
+
+// Uncomment to see a demo 
+// const seriesOfCalls = [
+//   ['50', '41'], // Move black 
+//   ['21', '30'], // Move red 
+//   ['52', '43'], // Move black 
+//   ['30', '52'], // Red jump black 
+//   ['63', '41'], // Black jump red 
+//   ['23', '32'], // Move red
+//   ['72', '63'], // Move black 
+//   ['32', '50'], // Red jump black
+//   ['50', '72'] // Red jump black to king
+//   ];
+// let i = 0;
+// let demo = setInterval( () => {
+//   game.moveChecker(seriesOfCalls[i][0], seriesOfCalls[i][1]);
+//   game.board.viewGrid();
+//   i++;
+// }, 2000);
+// setTimeout( () => clearInterval(demo), 20000);
+
 
 
 
