@@ -164,7 +164,7 @@ class Game {
       }
     }
   }
-  isMoveValid(start, end) {
+  isSingleMove(start, end){
     return (end.y - start.y === -1 || end.y - start.y === 1) && (end.x - start.x === 1 || end.x - start.x === -1); 
   }
   isPlayersTurn(start) {
@@ -193,10 +193,6 @@ class Game {
   }
   checkForWinner(){
     return this.board.checkers[this.currentPlayer === 'b' ? 'r' : 'b'].length === 0;
-  }
-  setToKing(end){
-    this.getChecker(end).isKing = true;
-    this.getChecker(end).symbol = this.getChecker(end).symbol.toUpperCase(); 
   }
   moveChecker(whichPiece, toWhere){
     const start = {
@@ -228,39 +224,40 @@ class Game {
       }
       this.board.checkers[this.currentPlayer === 'b' ? 'r' : 'b'].pop();
     }
+    const moveCheckerOne = (start, end) => {
+      this.board.grid[end.y][end.x] = this.getChecker(start);
+      this.board.grid[start.y][start.x] = null;
+    }
+    const canBeAKing = end => {
+      if(end.y === 0 || end.y === 7){
+        this.getChecker(end).isKing = true;
+        this.getChecker(end).symbol = this.getChecker(end).symbol.toUpperCase(); 
+      }
+    }
     if(this.areCoordsValid(start, end)){
       if(this.isPlayersTurn(start)){
-        if(this.isAJump(start, end)){
+        if(this.isSingleMove(start, end)){
+          moveCheckerOne(start, end);
+          canBeAKing(end);
+          this.switchPlayer();
+        } else if(this.isAJump(start, end)){
           if(this.isJumpValid(start, end)){
             jumpChecker(start, end);
-            // check for king status
-            if(end.y === 0 || end.y === 7){
-              this.setToKing(end);
+            if(!this.canJumpAgain(end)){
+              canBeAKing(end);
               this.switchPlayer();
-            } else {
-              if(!this.canJumpAgain(end)){
-                this.switchPlayer();
-              }
             }
           } else {
             console.log('Invalid jump');
           }
-        } else if(this.isMoveValid(start, end)){
-          // move checker 1 move
-          this.board.grid[end.y][end.x] = this.getChecker(start);
-          this.board.grid[start.y][start.x] = null;
-          if(end.y === 0 || end.y === 7){
-            this.setToKing(end);
-          }
-          this.switchPlayer();
-        }else {
+        } else {
           console.log('Invalid Move');
         }
-      }else {
+      } else {
         console.log('Must select your own checker');
       }
-    }else {
-      console.log('Invalid coordinates');
+    } else {
+      console.log('Invalid Coordinates');
     }
   }
 }
