@@ -98,29 +98,6 @@ const weatherStates = weather.map( item => item.weather_state_name).filter( (ite
 console.log(weatherStates);
 
 //find the id of the object in weather that has a min_temp of 15.915
-
-// const idealTemp = weather[3]['id'];
 const min_temp = weather.find(item => item.min_temp == 15.915);
 const idealTemp = min_temp ? min_temp.id : 'The ideal temperature does not exist';
 console.log(idealTemp)
-
-
-
-
-//  Bubble Sort - NOT PART OF THE CHECKPOINT - DELETE BEFORE SUBMITTING!!!!!!!!!!!!!!!!!!!
-// const bubbleSort = (arr) => {
-//   for(let i = 0; i < arr.length; i++){
-//     if(arr[i] > arr[i + 1]){
-//       let placeholder = arr[i];
-//       arr[i] = arr[i + 1];
-//       arr[i + 1] = placeholder;
-//     }
-//   }
-//   arr.forEach( (item, index, array) => {
-//     if(item > array[index + 1]){
-//       bubbleSort(arr);
-//     }
-//   });
-//   return arr;
-// }
-// console.log(bubbleSort(nums));
