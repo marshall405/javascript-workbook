@@ -11,6 +11,48 @@ let jobTypes = {
 
 // Your code here
 
+// Create a class CrewMember that takes a name, job and specialSkill. set this.ship to null
+  // create a method on CrewMember called enterShip()
+    // enterShip() takes one argument, an object, and sets CrewMember ship to that object
+    // enterShip() will also push CrewMember onto the objects crew array
+// Create a class Ship that takes a name, type and ability. set this.crew to []
+  // create a method on Ship called missionStatement() 
+  // missionStatement() will determine if that ship has a crew,
+  // if so return this.ability, else return 'Can't perform a mission yet'
+
+  class CrewMember {
+    constructor(name, job, specialSkill) {
+      this.name = name;
+      this.job = job;
+      this.specialSkill = specialSkill;
+      this.ship = null;
+    }
+    enterShip(Ship) {
+      if(Ship.type === jobTypes[this.job] || this.job === 'programmer'){
+        this.ship = Ship;
+        Ship.crew.push(this);
+      } else {
+        return `Crewmember ${this.name} does not have access to ${Ship.name}`;
+      }
+    }
+  }
+
+  class Ship {
+    constructor(name, type, ability) {
+      this.name = name;
+      this.type = type;
+      this.ability = ability;
+      this.crew = [];
+    }
+    missionStatement() {
+      if(this.crew.length) {
+        return this.ability;
+      }
+      return 'Can\'t perform a mission yet.';
+    }
+  }
+
+
 //tests
 if (typeof describe === 'function'){
   describe('CrewMember', function(){
@@ -29,6 +71,20 @@ if (typeof describe === 'function'){
       assert.equal(crewMember1.ship, mav);
       assert.equal(mav.crew.length, 1);
       assert.equal(mav.crew[0], crewMember1);
+    });
+    it('should keep from assigning the wrong ship', () => {
+      const mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit');
+      const crewMember1 = new CrewMember('Commander Lewis', 'commander', 'geology');
+      assert.equal(crewMember1.enterShip(mav), `Crewmember ${crewMember1.name} does not have access to ${mav.name}`);
+    });
+    it('should allow a programmer to enter any ship', () => {
+      const mainShip = new Ship('Hermes', 'Main Ship', 'Interplanetary Space Travel');
+      const mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit');
+      const programmer1 = new CrewMember('Michael Jordan', 'programmer', 'Basketball');
+      programmer1.enterShip(mainShip);
+      assert.equal(programmer1.ship, mainShip);
+      assert.equal(mainShip.crew.length, 1);
+      assert.equal(mainShip.crew[0], programmer1);
     });
   });
 
